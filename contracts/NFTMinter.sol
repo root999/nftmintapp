@@ -6,7 +6,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract NftMinter is ERC721URIStorage,Ownable{
-    uint public totalSupply = 10000;
     uint public nftCost = 1 ether;
     uint private _treasuryShare = 4;
     uint private _liquidtyShare = 6;
@@ -37,8 +36,7 @@ contract NftMinter is ERC721URIStorage,Ownable{
         _burn(tokenId);
     }
 
-    function mintNFT(address recipient,string memory tokenURI) public payable returns(uint256){
-        require(_tokenIds.current() < totalSupply,"All NFTs minted.");
+    function mintNFT(address recipient,string memory tokenURI) external payable returns(uint256){
         if(msg.sender != owner()){
             require(msg.value == nftCost,"nft cost");
             uint256 treasury  = (msg.value * _treasuryShare) / 100 ; 
